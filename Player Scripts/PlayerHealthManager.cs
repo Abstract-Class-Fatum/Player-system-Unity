@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerHealthManager : MonoBehaviour
+public class PlayerHealthManager : MonoBehaviour, IPlayerComponent
 {
     // References
     public PlayerController Control { get; private set; }

@@ -59,15 +59,20 @@ public class PlayerController : MonoBehaviour
             ?? throw new Exception($"Missing {(nameof(PlayerHealthManager))}");
     }
 
+    private void InitializeComponent<T>(T component) where T : IPlayerComponent
+    {
+        component.Initialize(this);
+    }
+
     // Sets PlayerController.cs
     private void Initialization()
     {
         // Initializes PlayerController for these:
-        Movement.Initialize(this);
-        Action.Initialize(this);
-        MoveMachine.Initialize(this);
-        ActionMachine.Initialize(this);
-        PlayerHealth.Initialize(this);
+        InitializeComponent(Movement);
+        InitializeComponent(Action);
+        InitializeComponent(MoveMachine);
+        InitializeComponent(ActionMachine);
+        InitializeComponent(PlayerHealth);
 
         // Sets other properties/variables
         InitializeVariables();
@@ -127,16 +132,12 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        MoveMachine.SetMovementState();
-
-        ActionMachine.SetActionState();
+        
     }
 
     private void FixedUpdate()
     {
-        MoveMachine.HandleMovementState();
-
-        ActionMachine.HandleActionState();
+        
     }
 
 }

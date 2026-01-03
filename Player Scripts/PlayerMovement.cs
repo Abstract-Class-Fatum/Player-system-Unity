@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IPlayerComponent
 {
     // Movement variables
     public int moveSpeed;
@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    public void Move()
+    public void HandleMovement()
     {
         // Movement...sets the velocity of the Rigidbody to a vector that move towards the moveSpeed
         Control.Rb.linearVelocity = new Vector2(Mathf.MoveTowards(Control.Rb.linearVelocity.x, Control.MoveInput.x * moveSpeed, acceleration * Time.fixedDeltaTime), Control.Rb.linearVelocity.y);

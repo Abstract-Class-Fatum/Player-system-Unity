@@ -1,4 +1,4 @@
-public class PlayerAction : MonoBehaviour
+public class PlayerAction : MonoBehaviour, IPlayerComponent
 {
     // Action Variables
     public int jumpPower;
