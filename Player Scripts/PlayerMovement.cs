@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     
 
     // References
-    private PlayerController Control { get; private set; }
+    public PlayerController Control { get; private set; }
     
     // Lets PlayerController.cs initialize this component
     public void Initialize(PlayerController playerController)
