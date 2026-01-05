@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        
+        MoveMachine.Update();
     }
 
     private void FixedUpdate()
