@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Gravity
-    [SerializeField] private float baseGravity = 2;
+    [SerializeField] private float _baseGravity = 2;
     public float LocalGravity { get; private set;}
 
     // Player input system
@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
         // Sets pressing jump to false
         JumpPressed = false;
         // Sets local gravity to base on startup
-        LocalGravity = baseGravity;
+        LocalGravity = _baseGravity;
     }
 
     private void OnEnable()
