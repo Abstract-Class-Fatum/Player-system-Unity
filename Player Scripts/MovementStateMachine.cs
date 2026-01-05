@@ -1,23 +1,35 @@
-public class MovementStateMachine
+public class MovementStateMachine : IPlayerComponent
 {
     // Stores current state
     private IState _currentState; 
 
+    // Cached states
+    public IdleState IdleState { get; private set; }
+    public RunState RunState { get; private set; }
+
     // References
     public PlayerController Control { get; private set; }
 
-    // Initializes the state machine along with setting it to idle
+    // Initializes the state machine and cached states along with setting it to idle
     public void Initialize(PlayerController playerController)
     {
         Control = playerController;
-        _currentState = new IdleState();
-        _currentState.Enter(playerController);
+
+        IdleState = new IdleState();
+        RunState  = new RunState();
+
+        ChangeState(IdleState);
     }
 
     // Name says it all
     public void ChangeState(IState newState)
     {
-        _currentState.Exit(Control);
+        if (newState == null)
+            throw new Exception()
+
+        if (newState == _currentState) return;
+
+        _currentState?.Exit(Control);
         _currentState = newState;
         _currentState.Enter(Control);
     }
@@ -25,12 +37,12 @@ public class MovementStateMachine
     // Updates state logic via Update()
     public void Update()
     {
-        _currentState.Update(PlayerController playerController);
+        _currentState.Update(Control);
     }
 
     // Updates state logic via FixedUpdate();
     public void FixedUpdate()
     {
-        _currentState.FixedUpdate(PlayerController playerController);
+        _currentState.FixedUpdate(Control);
     }
 }

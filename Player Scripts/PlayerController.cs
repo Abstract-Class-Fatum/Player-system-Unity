@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+        MoveMachine.FixedUpdate();
     }
 
 }

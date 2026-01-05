@@ -1,17 +1,17 @@
 public class RunState : IState
 {
-    public void Enter(PlayerController player) { }
+    public void Enter(PlayerController control) { }
 
-    public void Update(PlayerController player)
+    public void Update(PlayerController control)
     {
-        if (player.MoveInput.x == 0)
-            player.MoveMachine.ChangeState(new IdleState());
+        if (control.MoveInput.x == 0)
+            control.MoveMachine.ChangeState(player.MoveMachine.IdleState);
     }
 
-    public void FixedUpdate(PlayerController player)
+    public void FixedUpdate(PlayerController control)
     {
         player.Movement.HandleMovement();
     }
 
-    public void Exit(PlayerController player) { }
+    public void Exit(PlayerController control) { }
 }
