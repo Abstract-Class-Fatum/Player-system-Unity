@@ -1,4 +1,4 @@
-public class DashState : IActionState
+public class NoActionState : IActionState
 {
     public void Enter() { }
     public void Update() { }
