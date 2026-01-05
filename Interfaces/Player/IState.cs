@@ -1,7 +1,5 @@
-public interface IStates
+public interface IState
 {
     void Enter(PlayerController control);
-    void Update(PlayerController control);
-    void FixedUpdate(PlayerController control);
     void Exit(PlayerController control);
 }
