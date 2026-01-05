@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour, IPlayerComponent
+public class PlayerMovement : MonoBehaviour, 
+IPlayerComponent,
+IMoveable
 {
     // Movement variables
     public int moveSpeed;

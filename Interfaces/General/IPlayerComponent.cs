@@ -1,4 +1,4 @@
 public interface IPlayerComponent
 {
-    void Initialize(PlayerController playerController)
+    void Initialize(PlayerController playerController);
 }
