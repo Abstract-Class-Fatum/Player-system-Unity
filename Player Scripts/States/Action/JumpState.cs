@@ -1,7 +1,10 @@
 public class JumpState : IActionState
 {
-    public void Enter() { }
-    public void Update() { }
-    public void FixedUpdate() { }
-    public void Exit() { }
+    public void Enter(PlayerController playerController) { }
+
+    public void Update(PlayerController playerController) { }
+
+    public void FixedUpdate(PlayerController playerController) { }
+    
+    public void Exit(PlayerController playerController) { }
 }

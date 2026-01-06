@@ -4,7 +4,7 @@ using UnityEngine;
 public class ActionStateMachine : IPlayerComponent
 {
     // Stores current state
-    private IActionState _currentState;
+    private IActionState _currentActionState;
 
     // Cached states
     public IdleActionState IdleActionState { get; private set; }
@@ -26,18 +26,18 @@ public class ActionStateMachine : IPlayerComponent
 
     public void ChangeState(IActionState newState)
     {
-        _currentState.Exit();
-        _currentState = newState;
-        _currentState.Enter();
+        _currentActionState.Exit();
+        _currentActionState = newState;
+        _currentActionState.Enter();
     }
 
     public void Update()
     {
-        _currentState.Update(Control);
+        _currentActionState.Update(Control);
     }
 
     public void FixedUpdate()
     {
-        _currentState.FixedUpdate(Control);
+        _currentActionState.FixedUpdate(Control);
     }
 }

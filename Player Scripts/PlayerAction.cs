@@ -45,7 +45,5 @@ public class PlayerAction : IPlayerComponent
         
         yield new return WaitInSeconds(dashDuration);
 
-    }
-
-    
+    }   
 }

@@ -1,5 +1,5 @@
 public interface IState
 {
-    void Enter(PlayerController control);
-    void Exit(PlayerController control);
+    void Enter(PlayerController playerController);
+    void Exit(PlayerController playerController);
 }
