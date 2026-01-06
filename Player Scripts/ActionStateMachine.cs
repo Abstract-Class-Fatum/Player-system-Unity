@@ -1,4 +1,7 @@
-public class ActionStateMachine
+using System;
+using UnityEngine;
+
+public class ActionStateMachine : IPlayerComponent
 {
     // Stores current state
     private IActionState _currentState;

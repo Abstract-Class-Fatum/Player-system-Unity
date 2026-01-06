@@ -1,3 +1,6 @@
+using System;
+using UnityEngine;
+
 public class MovementStateMachine : IPlayerComponent
 {
     // Stores current state

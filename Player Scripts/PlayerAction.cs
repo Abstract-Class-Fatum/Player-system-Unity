@@ -1,4 +1,7 @@
-public class PlayerAction : MonoBehaviour, IPlayerComponent
+using System;
+using UnityEngine;
+
+public class PlayerAction : IPlayerComponent
 {
     // Action Variables
     public int jumpPower;
@@ -13,10 +16,8 @@ public class PlayerAction : MonoBehaviour, IPlayerComponent
     public void Initialize(PlayerController playerController)
     {
         Control = playerController;
-    }
 
-    private void Awake()
-    {
+        // Initialize others
         InitializeProperties();
     }
 

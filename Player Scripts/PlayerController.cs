@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour
         LocalGravity = _baseGravity;
     }
 
+    // Subscibing to events
     private void OnEnable()
     {
         Input.Player.Enable();
@@ -103,6 +104,7 @@ public class PlayerController : MonoBehaviour
         Control.Input.Player.Jump.canceled += OnJump;
     }
 
+    // Unsubscribing to events
     private void OnDisable()
     {
         input.Player.Move.performed -= OnMove;
