@@ -37,12 +37,16 @@ public class MovementStateMachine : IPlayerComponent
     // Updates state logic via Update()
     public void Update()
     {
+        if (_currentMoveState == null || Control == null) return;
+
         _currentMoveState.Update(Control);
     }
 
     // Updates state logic via FixedUpdate();
     public void FixedUpdate()
     {
+        if (_currentMoveState == null || Control == null) return;
+
         _currentMoveState.FixedUpdate(Control);
     }
 }
