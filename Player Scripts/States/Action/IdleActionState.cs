@@ -1,4 +1,4 @@
-public class NoActionState : IActionState
+public class IdleActionState : IActionState
 {
     public void Enter() { }
     public void Update() { }

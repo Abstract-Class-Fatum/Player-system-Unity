@@ -7,7 +7,7 @@ public class ActionStateMachine : IPlayerComponent
     private IActionState _currentState;
 
     // Cached states
-    public NoActionState NoActionState { get; private set; }
+    public IdleActionState IdleActionState { get; private set; }
     public DashState DashState { get; private set; }
     public JumpState JumpState { get; private set; }
 
@@ -19,7 +19,7 @@ public class ActionStateMachine : IPlayerComponent
     {
         Control = playerController;
 
-        NoActionState = new NoActionState();
+        NoActionState = new IdleActionState();
         DashState = new DashState();
         JumpState = new JumpState();
     }

@@ -1,4 +1,4 @@
-public class IdleState : IMoveState
+public class IdleMoveState : IMoveState
 {
     public void Enter(PlayerController control) { }
 

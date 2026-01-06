@@ -7,7 +7,7 @@ public class MovementStateMachine : IPlayerComponent
     private IMoveState _currentMoveState; 
 
     // Cached states
-    public IdleState IdleState { get; private set; }
+    public IdleMoveState IdleMoveState { get; private set; }
     public RunState RunState { get; private set; }
 
     // References
@@ -18,7 +18,7 @@ public class MovementStateMachine : IPlayerComponent
     {
         Control = playerController;
 
-        IdleState = new IdleState();
+        IdleState = new IdleMoveState();
         RunState  = new RunState();
 
         ChangeState(IdleState);
