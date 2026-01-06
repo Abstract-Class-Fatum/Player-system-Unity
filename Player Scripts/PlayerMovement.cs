@@ -3,25 +3,25 @@ using UnityEngine;
 
 public class PlayerMovement : IPlayerComponent, IMoveable
 {
-    // References
-    PlayerController Control { get; private set; }
-
     // Movement variables
     private float _baseMoveSpeed;
     private float _currentMoveSpeed;
-
-    private float acceleration;
-
-    // Initialization
-    public void Initialize(PlayerController playerController)
-    {
-        Control = playerController
-    }
 
     public float MoveSpeed
     {
         get => _currentMoveSpeed;
         set => _currentMoveSpeed => Mathf.max(0, value);
+    }
+
+    private float acceleration;
+
+    // References
+    PlayerController Control { get; private set; }
+
+    // Initialization
+    public void Initialize(PlayerController playerController)
+    {
+        Control = playerController
     }
 
     public void HandleMovement()
