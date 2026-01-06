@@ -52,13 +52,14 @@ public class PlayerController : MonoBehaviour
         Action = GetComponent<PlayerAction>()
             ?? throw new Exception($"Missing {(nameof(PlayerAction))}");
         MoveMachine = GetComponent<MovementStateMachine>()
-            ?? throw new Exception($"Missing {(nameof(MovementStateMachine))}");
+            ?? throw new Exception($"Missing {(nameof(MoveMachine))}");
         ActionMachine = GetComponent<ActionStateMachine>()
-            ?? throw new Exception($"Missing {(nameof(ActionStateMachine))}");
+            ?? throw new Exception($"Missing {(nameof(ActionMachine))}");
         PlayerHealth = GetComponent<PlayerHealthManager>()
-            ?? throw new Exception($"Missing {(nameof(PlayerHealthManager))}");
+            ?? throw new Exception($"Missing {(nameof(PlayerHealth))}");
     }
 
+    // More consistent initialization naming
     private void InitializeComponent<T>(T component) where T : IPlayerComponent
     {
         component.Initialize(this);

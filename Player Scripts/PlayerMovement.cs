@@ -10,7 +10,7 @@ public class PlayerMovement : IPlayerComponent, IMoveable
     private float _baseMoveSpeed;
     private float _currentMoveSpeed;
 
-    
+    private float acceleration;
 
     // Initialization
     public void Initialize(PlayerController playerController)
@@ -20,7 +20,7 @@ public class PlayerMovement : IPlayerComponent, IMoveable
 
     public float MoveSpeed
     {
-        get => _currentMoveSpeed
+        get => _currentMoveSpeed;
         set => _currentMoveSpeed => Mathf.max(0, value);
     }
 
