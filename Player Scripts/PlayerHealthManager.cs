@@ -3,42 +3,54 @@ using UnityEngine;
 
 public class PlayerHealthManager : IPlayerComponent
 {
+    // References
+    public PlayerController Control { get; private set; }
+
+    // Lets PlayerController.cs initialize this component
+    public void Initialize(PlayerController playerController)
+    {
+        Control = playerController;
+        _maxHealth = maxHealth;
+        _currentHealth = maxHealth;
+    }
 
     // Health variables
-    private int _currentHealth;
-    private int _minMaxHealth;
-    private int _maxHealth;
+    private float _currentHealth;
+    private float _minMaxHealth;
+    private float _maxHealth;
 
-    public int Health
+    public float Health
     {
         get => _currentHealth;
         set => _currentHealth = Mathf.Clamp(value, 0, _maxHealth);
     }
 
-    public int MaxHealth
+    public float MaxHealth
     {
         get => _maxHealth;
         set
         {
-            int _oldMax = _maxHealth;
+            float _oldMax = _maxHealth;
             _maxHealth = Mathf.Max(_minMaxHealth, value);
             Health += _maxHealth - _oldMax;
         }
     }
 
+    // Dead
     private bool _isDead;
 
     // Events
-    public event Action<int> OnHealed;
-    public event Action<int> OnDamaged;
+    public event Action<float> OnHealed;
+    public event Action<float> OnDamaged;
 
-    public event Action<int> OnAddMaxHealth;
-    public event Action<int> OnRemoveMaxHealth;
-    
-    public event Action<int, int> OnHealthChange;
+    public event Action<float> OnAddMaxHealth;
+    public event Action<float> OnRemoveMaxHealth;
+
+    public event Action<float, float> OnHealthChange;
+
     public event Action OnDeath;
 
-    public void Heal(int amount)
+    public void Heal(float amount)
     {
         if (_isDead) return;
 
@@ -48,7 +60,7 @@ public class PlayerHealthManager : IPlayerComponent
         OnHealthChanged?.Invoke(Health, _maxHealth);
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         if (_isDead) return;
 
@@ -69,14 +81,5 @@ public class PlayerHealthManager : IPlayerComponent
         OnDeath?.Invoke();
     }
 
-    // References
-    public PlayerController Control { get; private set; }
-
-    // Lets PlayerController.cs initialize this component
-    public void Initialize(PlayerController playerController)
-    {
-        Control = playerController;
-        _maxHealth = maxHealth;
-        _currentHealth = maxHealth;
-    }
+    
 }

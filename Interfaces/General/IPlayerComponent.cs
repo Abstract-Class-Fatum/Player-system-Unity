@@ -1,5 +1,5 @@
 public interface IPlayerComponent
 {
     PlayerController Control { get; }
-    void Initialize(PlayerController playerController);
+    void Initialize(PlayerController playerController, PlayerStats playerStats);
 }
