@@ -27,6 +27,7 @@ public class MovementStateMachine : IPlayerComponent
     // Name says it all
     public void ChangeState(IMoveState newState)
     {
+        // If the state is already the new state then it 
         if (newState == null)
             throw new Exception()
 

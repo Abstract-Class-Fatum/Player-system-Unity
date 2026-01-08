@@ -11,30 +11,45 @@ public class PlayerHealthManager : IPlayerComponent
     public int Health
     {
         get => _currentHealth;
-        set => _currentHealth => Mathf.clamp(value, 0, _maxHealth);
+        set => _currentHealth = Mathf.Clamp(value, 0, _maxHealth);
     }
 
+    private bool _isDead;
+
     // Events
-    public event Action<int amount> OnHealthChange;
+    public event Action<int> OnHealed;
+    public event Action<int> OnDamaged;
+    public event Action<int, int> OnHealthChange;
     public event Action OnDeath;
 
-    public void HealHealth(int amount)
+    public void Heal(int amount)
     {
+        if (_isDead) return;
+
         Health += amount;
-        OnHealthChange?.Invoke(amount);
+
+        OnHealed?.Invoke(amount);
+        OnHealthChanged?.Invoke(Health, _maxHealth)
     }
 
     public void TakeDamage(int amount)
     {
+        if (_isDead) return;
+
         Health -= amount;
-        OnHealthChange?.Invoke(-amount);
+        
+        OnDamaged?.Invoke(amount);
+        OnHealthChanged?.Invoke(Health, _maxHealth);
 
         if (Health <= 0)
             HandleDeath();
     }
 
-    public void HandleDeath()
+    private void HandleDeath()
     {
+        if (_isDead) return;
+
+        _isDead = true;
         OnDeath?.Invoke();
     }
 
@@ -45,5 +60,7 @@ public class PlayerHealthManager : IPlayerComponent
     public void Initialize(PlayerController playerController)
     {
         Control = playerController;
+        _maxHealth = maxHealth;
+        _currentHealth = maxHealth;
     }
 }
