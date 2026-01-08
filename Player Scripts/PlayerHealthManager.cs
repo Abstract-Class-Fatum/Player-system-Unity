@@ -5,9 +5,10 @@ public class PlayerHealthManager : IPlayerComponent
 {
     // References
     public PlayerController Control { get; private set; }
+    public PlayerStats playerStats { get; private set; }
 
     // Lets PlayerController.cs initialize this component
-    public void Initialize(PlayerController playerController)
+    public void Initialize(PlayerController playerController, PlayerStats playerStats)
     {
         Control = playerController;
         _maxHealth = maxHealth;
@@ -16,7 +17,6 @@ public class PlayerHealthManager : IPlayerComponent
 
     // Health variables
     private float _currentHealth;
-    private float _minMaxHealth;
     private float _maxHealth;
 
     public float Health
@@ -31,7 +31,7 @@ public class PlayerHealthManager : IPlayerComponent
         set
         {
             float _oldMax = _maxHealth;
-            _maxHealth = Mathf.Max(_minMaxHealth, value);
+            _maxHealth = Mathf.Max(1, value);
             Health += _maxHealth - _oldMax;
         }
     }
