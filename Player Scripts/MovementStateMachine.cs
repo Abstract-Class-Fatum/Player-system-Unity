@@ -29,7 +29,7 @@ public class MovementStateMachine : IPlayerComponent
     {
         // If the state is already the new state then it 
         if (newState == null)
-            throw new Exception()
+            throw new Exception();
 
         if (newState == _currentMoveState) return;
 

@@ -6,6 +6,7 @@ public class PlayerHealthManager : IPlayerComponent
 
     // Health variables
     private int _currentHealth;
+    private int _minMaxHealth;
     private int _maxHealth;
 
     public int Health
@@ -14,11 +15,26 @@ public class PlayerHealthManager : IPlayerComponent
         set => _currentHealth = Mathf.Clamp(value, 0, _maxHealth);
     }
 
+    public int MaxHealth
+    {
+        get => _maxHealth;
+        set
+        {
+            int _oldMax = _maxHealth;
+            _maxHealth = Mathf.Max(_minMaxHealth, value);
+            Health += _maxHealth - _oldMax;
+        }
+    }
+
     private bool _isDead;
 
     // Events
     public event Action<int> OnHealed;
     public event Action<int> OnDamaged;
+
+    public event Action<int> OnAddMaxHealth;
+    public event Action<int> OnRemoveMaxHealth;
+    
     public event Action<int, int> OnHealthChange;
     public event Action OnDeath;
 
@@ -29,7 +45,7 @@ public class PlayerHealthManager : IPlayerComponent
         Health += amount;
 
         OnHealed?.Invoke(amount);
-        OnHealthChanged?.Invoke(Health, _maxHealth)
+        OnHealthChanged?.Invoke(Health, _maxHealth);
     }
 
     public void TakeDamage(int amount)
