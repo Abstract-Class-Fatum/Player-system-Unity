@@ -42,9 +42,9 @@ public class PlayerController : MonoBehaviour
     {
         // Physics references
         Rb = GetComponent<Rigidbody2D>()
-            ?? throw new Exception($"Missing {(nameof(Rigidbody2D))}");
+            ?? throw new InvalidOperationException("Missing RigidBody")
         BCol = GetComponent<BoxCollider2D>()
-            ?? throw new Exception($"Missing {(nameof(BoxCollider2D))}");
+            ?? throw new InvalidOperationException("missing BoxCollider")
 
         // Script references
         Movement = GetComponent<PlayerMovement>()
