@@ -1,85 +1,51 @@
 using System;
 using UnityEngine;
 
-public class PlayerHealthManager : IPlayerComponent
+public class PlayerHealthManager : IPlayerScript
 {
-    // References
-    public PlayerController Control { get; private set; }
-    public PlayerStats playerStats { get; private set; }
-
-    // Lets PlayerController.cs initialize this component
-    public void Initialize(PlayerController playerController, PlayerStats playerStats)
-    {
-        Control = playerController;
-        _maxHealth = maxHealth;
-        _currentHealth = maxHealth;
-    }
 
     // Health variables
-    private float _currentHealth;
-    private float _maxHealth;
+    private int _currentHealth;
+    private readonly int _maxHealth;
 
-    public float Health
+    public int Health
     {
         get => _currentHealth;
         set => _currentHealth = Mathf.Clamp(value, 0, _maxHealth);
     }
 
-    public float MaxHealth
-    {
-        get => _maxHealth;
-        set
-        {
-            float _oldMax = _maxHealth;
-            _maxHealth = Mathf.Max(1, value);
-            Health += _maxHealth - _oldMax;
-        }
-    }
-
-    // Dead
-    private bool _isDead;
-
     // Events
-    public event Action<float> OnHealed;
-    public event Action<float> OnDamaged;
-
-    public event Action<float> OnAddMaxHealth;
-    public event Action<float> OnRemoveMaxHealth;
-
-    public event Action<float, float> OnHealthChange;
-
+    public event Action<int> OnHealthChange;
     public event Action OnDeath;
 
-    public void Heal(float amount)
+    public void HealHealth(int amount)
     {
-        if (_isDead) return;
-
         Health += amount;
-
-        OnHealed?.Invoke(amount);
-        OnHealthChanged?.Invoke(Health, _maxHealth);
+        OnHealthChange?.Invoke(amount);
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(int amount)
     {
-        if (_isDead) return;
-
         Health -= amount;
-        
-        OnDamaged?.Invoke(amount);
-        OnHealthChanged?.Invoke(Health, _maxHealth);
+        OnHealthChange?.Invoke(-amount);
 
         if (Health <= 0)
             HandleDeath();
     }
 
-    private void HandleDeath()
+    public void HandleDeath()
     {
-        if (_isDead) return;
-
-        _isDead = true;
         OnDeath?.Invoke();
     }
 
-    
+    // References
+    public PlayerController Control { get; private set; }
+    public PlayerStatsSO Stats { get; private set; }
+
+    // Lets PlayerController.cs initialize this component
+    public void Initialize(PlayerController playerController, PlayerStatsSO playerStatsSO)
+    {
+        Control = playerController;
+        Stats = playerStatsSO;
+    }
 }

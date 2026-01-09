@@ -1,7 +1,8 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
-public class PlayerAction : IPlayerComponent
+public class PlayerAction : IPlayerScript
 {
     // Action Variables
     public int jumpPower;
@@ -11,11 +12,12 @@ public class PlayerAction : IPlayerComponent
     public bool CanDash { get; private set; }
 
     // References
-    private PlayerController Control { get; private set; }
-
-    public void Initialize(PlayerController playerController)
+    public PlayerController Control { get; private set; }
+    public PlayerStatsSO Stats { get; private set; }
+    public void Initialize(PlayerController playerController, PlayerStatsSO playerStatsSO)
     {
         Control = playerController;
+        Stats = playerStatsSO;
 
         // Initialize others
         InitializeProperties();
@@ -28,11 +30,11 @@ public class PlayerAction : IPlayerComponent
 
     public void PlayerJump()
     {
-        if (Control.IsJumping && Control.IsGrounded)
+        if (Control.JumpPressed && Control.IsGrounded)
         {
             Control.Rb.linearVelocity = new Vector2(Control.Rb.linearVelocity.x, jumpPower);
         }
-        else if (!Control.IsJumping && Control.Rb.linearVelocity.y >= jumpPower * jumpCutoff)
+        else if (!Control.JumpPressed && Control.Rb.linearVelocity.y >= jumpPower * jumpCutoff)
         {
             Control.Rb.linearVelocity = new Vector2(Control.Rb.linearVelocity.x, jumpPower * jumpCutoff);
         }
@@ -40,10 +42,6 @@ public class PlayerAction : IPlayerComponent
 
     public IEnumerator DashCoroutine()
     {
-        CanDash = false;
-        ActionMachine.currentActionState = ActionMachine.ActionStates.Dash;
-        
-        yield new return WaitInSeconds(dashDuration);
-
+        return null;
     }   
 }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class ActionStateMachine : IPlayerComponent
+public class ActionStateMachine : IPlayerScript
 {
     // Stores current state
     private IActionState _currentActionState;
@@ -13,22 +13,24 @@ public class ActionStateMachine : IPlayerComponent
 
     // References
     public PlayerController Control { get; private set; }
+    public PlayerStatsSO Stats { get; private set; }
 
     // Initializes Player controller and sets state
-    public void Initialize(PlayerController playerController)
+    public void Initialize(PlayerController playerController, PlayerStatsSO playerStatsSO)
     {
         Control = playerController;
+        Stats = playerStatsSO;
 
-        NoActionState = new IdleActionState();
+        IdleActionState = new IdleActionState();
         DashState = new DashState();
         JumpState = new JumpState();
     }
 
     public void ChangeState(IActionState newState)
     {
-        _currentActionState.Exit();
+        _currentActionState.Exit(Control);
         _currentActionState = newState;
-        _currentActionState.Enter();
+        _currentActionState.Enter(Control);
     }
 
     public void Update()

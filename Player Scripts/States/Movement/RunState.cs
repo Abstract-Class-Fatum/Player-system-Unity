@@ -5,7 +5,7 @@ public class RunState : IMoveState
     public void Update(PlayerController playerController)
     {
         if (playerController.MoveInput.x == 0)
-            playerController.MoveMachine.ChangeState(playerController.MoveMachine.IdleState);
+            playerController.MoveMachine.ChangeState(playerController.MoveMachine.IdleMoveState);
     }
 
     public void FixedUpdate(PlayerController playerController)

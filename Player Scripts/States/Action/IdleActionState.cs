@@ -4,7 +4,7 @@ public class IdleActionState : IActionState
 
     public void Update(PlayerController playerController)
     {
-        if (playerController.)
+        
     }
     
     public void FixedUpdate(PlayerController playerController) { }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class MovementStateMachine : IPlayerComponent
+public class MovementStateMachine : IPlayerScript
 {
     // Stores current state
     private IMoveState _currentMoveState; 
@@ -12,22 +12,23 @@ public class MovementStateMachine : IPlayerComponent
 
     // References
     public PlayerController Control { get; private set; }
+    public PlayerStatsSO Stats { get; private set; }
 
     // Initializes the state machine and cached states along with setting it to idle
-    public void Initialize(PlayerController playerController)
+    public void Initialize(PlayerController playerController, PlayerStatsSO playerStatsSO)
     {
         Control = playerController;
+        Stats = playerStatsSO;
 
-        IdleState = new IdleMoveState();
+        IdleMoveState = new IdleMoveState();
         RunState  = new RunState();
 
-        ChangeState(IdleState);
+        ChangeState(IdleMoveState);
     }
 
     // Name says it all
     public void ChangeState(IMoveState newState)
     {
-        // If the state is already the new state then it 
         if (newState == null)
             throw new Exception();
 

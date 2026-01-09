@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerMovement : IPlayerComponent, IMoveable
+public class PlayerMovement : IPlayerScript, IMoveable
 {
     // Movement variables
     private float _baseMoveSpeed;
@@ -10,24 +10,36 @@ public class PlayerMovement : IPlayerComponent, IMoveable
     public float MoveSpeed
     {
         get => _currentMoveSpeed;
-        set => _currentMoveSpeed => Mathf.max(0, value);
+        set => _currentMoveSpeed = Mathf.Max(0, value);
     }
 
-    private float acceleration;
+    private float _acceleration = 20f;
 
     // References
-    PlayerController Control { get; private set; }
+    public PlayerController Control { get; private set; }
+    public PlayerStatsSO Stats { get; private set; }
 
     // Initialization
-    public void Initialize(PlayerController playerController)
+    public void Initialize(PlayerController playerController, PlayerStatsSO playerStatsSO)
     {
-        Control = playerController
+        Control = playerController;
+        Stats = playerStatsSO;
+
+        SetMovementStats();
+    }
+
+    private void SetMovementStats()
+    {
+        _baseMoveSpeed = Stats.baseMoveSpeed;
+        _currentMoveSpeed = _baseMoveSpeed;
     }
 
     public void HandleMovement()
     {
+        if (Control == null) return;
+
         // Movement...sets the velocity of the Rigidbody to a vector that move towards the moveSpeed
-        Control.Rb.linearVelocity = new Vector2(Mathf.MoveTowards(Control.Rb.linearVelocity.x, Control.MoveInput.x * MoveSpeed, acceleration * Time.fixedDeltaTime), Control.Rb.linearVelocity.y);
+        Control.Rb.linearVelocity = new Vector2(Mathf.MoveTowards(Control.Rb.linearVelocity.x, Control.MoveInput.x * MoveSpeed, _acceleration * Time.fixedDeltaTime), Control.Rb.linearVelocity.y);
     }
 
     
