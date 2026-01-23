@@ -5,8 +5,10 @@ public class PlayerHealthManager : IPlayerScript
 {
 
     // Health variables
+    public bool isDead = false;
+
     private int _currentHealth;
-    private readonly int _maxHealth;
+    private int _maxHealth;
 
     public int Health
     {
@@ -14,27 +16,81 @@ public class PlayerHealthManager : IPlayerScript
         set => _currentHealth = Mathf.Clamp(value, 0, _maxHealth);
     }
 
-    // Events
-    public event Action<int> OnHealthChange;
-    public event Action OnDeath;
-
-    public void HealHealth(int amount)
+    public int MaxHealth
     {
-        Health += amount;
-        OnHealthChange?.Invoke(amount);
+        get => _maxHealth;
+        set
+        {
+            int oldMax = _maxHealth;
+            _maxHealth = Mathf.Max(0, value);
+            Health += (_maxHealth - oldMax);
+        }
     }
 
-    public void TakeDamage(int amount)
+    // Events
+    public event Action<int> OnDamaged;
+    public event Action<int> OnHealed;
+
+    public event Action<int> OnLoseMaxHealth;
+    public event Action<int> OnGainMaxHealth;
+
+    public event EventHandler<HealthChangedEventArgs> OnHealthChanged;
+
+    public event Action OnDeath;
+
+    // Events
+    public void HealAmount(int amount)
+    {
+        if (Health == MaxHealth) return;
+
+        // Stores the old health
+        int oldHealth = Health;
+
+        Health += amount;
+
+        // Records the change in health
+        int healthChange = Health - oldHealth;
+
+        OnHealed?.Invoke(amount);
+
+        OnHealthChanged?.Invoke(
+            this,
+            new HealthChangedEventArgs(Health, MaxHealth, healthChange)
+        );
+    }
+
+    public void DamageAmount(int amount)
     {
         Health -= amount;
-        OnHealthChange?.Invoke(-amount);
+
+        OnDamaged?.Invoke(amount);
+        OnHealthChanged?.Invoke(Health, MaxHealth);
 
         if (Health <= 0)
             HandleDeath();
     }
 
+    public void IncreaseMaxHealth(int amount)
+    {
+        MaxHealth += amount;
+
+        OnGainMaxHealth?.Invoke(amount);
+        OnHealthChanged?.Invoke(Health, MaxHealth);
+    }
+
+    public void DecreaseMaxHealth(int amount)
+    {
+        MaxHealth -= amount;
+
+        OnLoseMaxHealth?.Invoke(amount);
+        OnHealthChanged?.Invoke(Health, MaxHealth);
+    }
+
     public void HandleDeath()
     {
+        if (isDead) return;
+        isDead = true;
+
         OnDeath?.Invoke();
     }
 
