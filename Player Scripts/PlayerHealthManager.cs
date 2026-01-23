@@ -31,12 +31,12 @@ public class PlayerHealthManager : IPlayerScript
     public event Action<int> OnLoseMaxHealth;
     public event Action<int> OnGainMaxHealth;
 
-    public event EventHandler<HealthChangedEventArgs> OnHealthChanged;
+    public event Action<HealthChange> OnHealthChanged;
 
     public event Action OnDeath;
 
     // Events
-    public void HealAmount(int amount)
+    public void Heal(int amount)
     {
         if (Health == MaxHealth) return;
 
@@ -48,13 +48,10 @@ public class PlayerHealthManager : IPlayerScript
         // Records the change in health
         int healthChange = Health - oldHealth;
 
-        OnHealthChanged?.Invoke(
-            this,
-            new HealthChangedEventArgs(Health, MaxHealth, healthChange)
-        );
+        OnHealthChanged?.Invoke(new HealthChanged(Health, MaxHealth, healthChange));
     }
 
-    public void DamageAmount(int amount)
+    public void Damage(int amount)
     {
         if (isDead) return;
 
@@ -64,10 +61,7 @@ public class PlayerHealthManager : IPlayerScript
 
         int healthChange = Health - oldHealth;
 
-        OnHealthChanged?.Invoke(
-            this,
-            new HealthChangedEventArgs(Health, MaxHealth, healthChange)
-        );
+        OnHealthChanged?.Invoke(new HealthChanged(Health, MaxHealth, healthChange));
 
         if (Health <= 0)
             HandleDeath();
