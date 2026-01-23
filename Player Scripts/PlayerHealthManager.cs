@@ -28,9 +28,6 @@ public class PlayerHealthManager : IPlayerScript
     }
 
     // Events
-    public event Action<int> OnDamaged;
-    public event Action<int> OnHealed;
-
     public event Action<int> OnLoseMaxHealth;
     public event Action<int> OnGainMaxHealth;
 
@@ -51,8 +48,6 @@ public class PlayerHealthManager : IPlayerScript
         // Records the change in health
         int healthChange = Health - oldHealth;
 
-        OnHealed?.Invoke(amount);
-
         OnHealthChanged?.Invoke(
             this,
             new HealthChangedEventArgs(Health, MaxHealth, healthChange)
@@ -61,10 +56,18 @@ public class PlayerHealthManager : IPlayerScript
 
     public void DamageAmount(int amount)
     {
+        if (isDead) return;
+
+        int oldHealth = Health;
+
         Health -= amount;
 
-        OnDamaged?.Invoke(amount);
-        OnHealthChanged?.Invoke(Health, MaxHealth);
+        int healthChange = Health - oldHealth;
+
+        OnHealthChanged?.Invoke(
+            this,
+            new HealthChangedEventArgs(Health, MaxHealth, healthChange)
+        );
 
         if (Health <= 0)
             HandleDeath();
@@ -75,7 +78,10 @@ public class PlayerHealthManager : IPlayerScript
         MaxHealth += amount;
 
         OnGainMaxHealth?.Invoke(amount);
-        OnHealthChanged?.Invoke(Health, MaxHealth);
+        OnHealthChanged?.Invoke(
+            this,
+            new HealthChangedEventArgs(Health, MaxHealth, healthChange)
+        );
     }
 
     public void DecreaseMaxHealth(int amount)
@@ -83,7 +89,10 @@ public class PlayerHealthManager : IPlayerScript
         MaxHealth -= amount;
 
         OnLoseMaxHealth?.Invoke(amount);
-        OnHealthChanged?.Invoke(Health, MaxHealth);
+        OnHealthChanged?.Invoke(
+            this,
+            new HealthChangedEventArgs(Health, MaxHealth, healthChange)
+        );
     }
 
     public void HandleDeath()
@@ -103,5 +112,12 @@ public class PlayerHealthManager : IPlayerScript
     {
         Control = playerController;
         Stats = playerStatsSO;
+
+        InitializeBaseHealth();
+    }
+
+    private void InitializeBaseHealth()
+    {
+        MaxHealth = Stats.baseHealth;
     }
 }
